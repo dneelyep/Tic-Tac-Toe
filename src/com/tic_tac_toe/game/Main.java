@@ -12,5 +12,39 @@ public class Main {
 	System.out.println("Welcome to tic-tac-toe!");
 	System.out.println("1) Start");
 	System.out.println("2) Quit");
+
+	Cell c = new Cell();
+	c.setOwner('X');
+	new Main();
+    }
+
+    /** Create a new object of the Main class. */
+    public Main() {
+	startGame();
+    }
+
+    /** Start a new game of tic tac toe, using
+     *  players x and o. */
+    public void startGame() {
+	System.out.println("");
+	System.out.println("==^=^=^=^=^===============^=^=^=^=^==");
+	System.out.println("| x x x x x | x x x x x | x x x x x |");
+	System.out.println("| x x x x x | x x x x x | x x x x x |");
+	System.out.println("| x x x x x | x x x x x | x x x x x |");
+	System.out.println("| x x x x x | x x x x x | x x x x x |");
+	System.out.println("| x x x x x | x x x x x | x x x x x |");
+	System.out.println("|-----------+-----------+-----------|");
+	System.out.println("| x x x x x | x x x x x | x x x x x |");
+	System.out.println("| x x x x x | x x x x x | x x x x x |");
+	System.out.println("| x x x x x | x x x x x | x x x x x |");
+	System.out.println("| x x x x x | x x x x x | x x x x x |");
+	System.out.println("| x x x x x | x x x x x | x x x x x |");
+	System.out.println("|-----------+-----------+-----------|");
+	System.out.println("| x x x x x | x x x x x | x x x x x |");
+	System.out.println("| x x x x x | x x x x x | x x x x x |");
+	System.out.println("| x x x x x | x x x x x | x x x x x |");
+	System.out.println("| x x x x x | x x x x x | x x x x x |");
+	System.out.println("| x x x x x | x x x x x | x x x x x |");
+	System.out.println("==v=v=v=v=v===============v=v=v=v=v==");
     }
 }

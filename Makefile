@@ -2,7 +2,8 @@ FLAGS=-Xlint:cast -Xlint:classfile -Xlint:deprecation -Xlint:dep-ann -Xlint:divz
 
 SRC        = ./src/com/tic_tac_toe/game/*.java
 CLASS      = ./bin/
-CLASSPATH  = ~/Programming/Java/tic_tac_toe/bin #:~/.junit/junit4.10/junit-4.10.jar
+CLASSPATH  = ~/Programming/Java/tic_tac_toe/bin
+                                              #:~/.junit/junit4.10/junit-4.10.jar
 
 all: $(SRC) $(CLASS)
         # Compile source files.

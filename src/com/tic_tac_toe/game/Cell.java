@@ -15,7 +15,7 @@ public class Cell {
 
     /** Change the owner of this cell to player X, player O, 
      *  or make it un-owned. */
-    public void changeOwner(char player) {
+    public void setOwner(char player) {
 	if (player == 'X')
 	    owner = "X";
 	else if (player == 'O')
@@ -24,7 +24,5 @@ public class Cell {
 	    owner = "-";
 	else
 	    System.out.println("Error: Tried to set owner to an invalid player.");
-
-	System.out.println("Testing.");
     }
 }
