@@ -16,12 +16,6 @@ public class MainGUI extends JFrame implements ActionListener {
     /** Bring up the main menu, allowing the player to 
      *  start a game or quit. */
     public static void main(String args[]) {
-	System.out.println("Welcome to tic-tac-toe!");
-	System.out.println("1) Start");
-	System.out.println("2) Quit");
-
-	Cell c = new Cell();
-	c.setOwner('X');
 	MainGUI game = new MainGUI();
 	game.pack();
 	game.setVisible(true);
