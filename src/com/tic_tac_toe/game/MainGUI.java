@@ -3,6 +3,7 @@ package com.tic_tac_toe.game;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.*;
@@ -17,7 +18,7 @@ public class MainGUI extends JFrame implements ActionListener {
     /** Bring up the main menu, allowing the player to 
      *  start a game or quit. */
     public static void main(String args[]) {
-	MainGUI game = new MainGUI();
+	new MainGUI();
     }
 
     /** Create a new MainGUI object by creating Swing
@@ -34,8 +35,13 @@ public class MainGUI extends JFrame implements ActionListener {
     /** Add all controls and visual components to the board so that the
      *  player can see game state and interact with the game. */
     public void addControls() {
+	JButton top_left = new JButton(new ImageIcon("/home/daniel/Programming/Java/tic_tac_toe/src/com/tic_tac_toe/game/images/Empty.png"));
 	JButton quit = new JButton("Quit");
+
+	top_left.addActionListener(this);
 	quit.addActionListener(this);
+	
+	add(top_left);
 	add(quit);
     }
 
