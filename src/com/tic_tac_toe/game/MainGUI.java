@@ -13,24 +13,26 @@ import java.awt.event.*;
  * @author Daniel Neel */
 public class MainGUI extends JFrame implements ActionListener { 
 
+    // TODO: Misleading comment here.
     /** Bring up the main menu, allowing the player to 
      *  start a game or quit. */
     public static void main(String args[]) {
 	MainGUI game = new MainGUI();
-	game.pack();
-	game.setVisible(true);
     }
 
-    /** Create a new object of the Main class. */
+    /** Create a new MainGUI object by creating Swing
+     *  components and initializing various values. */
     public MainGUI() {
         setSize(400, 300);
-	setTitle("Developing the First Swing Application");
+	setTitle("Tic tac toe!");
 	setDefaultCloseOperation(EXIT_ON_CLOSE);
 	addControls();
+	pack();
+	setVisible(true);
     }
 
     /** Add all controls and visual components to the board so that the
-     *  player can start playing, quit, etc. */
+     *  player can see game state and interact with the game. */
     public void addControls() {
 	JButton quit = new JButton("Quit");
 	quit.addActionListener(this);
@@ -40,7 +42,7 @@ public class MainGUI extends JFrame implements ActionListener {
     /** Whenever we receive an event, fire off the appropriate actions. */
     public void actionPerformed(ActionEvent e) {
 	if (e.getActionCommand().equals("Quit")) {
-	    this.dispose();
+	    dispose();
 	    System.out.println("Goodbye.");
 	}
     }
