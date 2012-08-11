@@ -66,54 +66,19 @@ public class MainGUI extends JFrame implements ActionListener {
 	JPanel topPanel = new JPanel(new GridBagLayout());
 	add(topPanel);
 
-	// Add listeners to detect various events.
-	topLeft.addActionListener(this);
-	topMid.addActionListener(this);
-	topRight.addActionListener(this);
-	midLeft.addActionListener(this);
-	midMid.addActionListener(this);
-	midRight.addActionListener(this);
-	botLeft.addActionListener(this);
-	botMid.addActionListener(this);
-	botRight.addActionListener(this);
-	quit.addActionListener(this);
-
 	GridBagConstraints constraints = new GridBagConstraints();
 	
 	// Add the buttons to the top-level panel.
-	constraints.gridx = 0;
-	constraints.gridy = 0;
-	topPanel.add(topLeft, constraints);
-
-	constraints.gridx = 1;
-	topPanel.add(topMid, constraints);
-
-	constraints.gridx = 2;
-	topPanel.add(topRight, constraints);
-
-	constraints.gridx = 0;
-	constraints.gridy = 1;
-	topPanel.add(midLeft, constraints);
-
-	constraints.gridx = 1;
-	topPanel.add(midMid, constraints);
-
-	constraints.gridx = 2;
-	topPanel.add(midRight, constraints);
-
-	constraints.gridx = 0;
-	constraints.gridy = 2;
-	topPanel.add(botLeft, constraints);
-
-	constraints.gridx = 1;
-	topPanel.add(botMid, constraints);
-
-	constraints.gridx = 2;
-	topPanel.add(botRight, constraints);
-
-	constraints.gridx = 1;
-	constraints.gridy = 3;
-	topPanel.add(quit, constraints);
+	createControl(topPanel, topLeft,  constraints, 0, 0);
+	createControl(topPanel, topMid,   constraints, 1, 0);
+	createControl(topPanel, topRight, constraints, 2, 0);
+	createControl(topPanel, midLeft,  constraints, 0, 1);
+	createControl(topPanel, midMid,   constraints, 1, 1);
+	createControl(topPanel, midRight, constraints, 2, 1);
+	createControl(topPanel, botLeft,  constraints, 0, 2);
+	createControl(topPanel, botMid,   constraints, 1, 2);
+	createControl(topPanel, botRight, constraints, 2, 2);
+	createControl(topPanel, quit,     constraints, 1, 3);
 
 	constraints.gridx = 3;
 	constraints.gridy = 0;
@@ -146,5 +111,15 @@ public class MainGUI extends JFrame implements ActionListener {
 	    dispose();
 	    System.out.println("Goodbye.");
 	}
+    }
+
+    /** Given a JPanel panel, a JButton button, some GridBagConstraints gbc, 
+     *  and some x/y coordinates, add button to the panel with gridx/y as x and y.
+     *  Also add an ActionListener to the button, so it can listen for events. */
+    public void createControl(JPanel panel, JButton button, GridBagConstraints gbc, int x, int y) {
+	button.addActionListener(this);
+	gbc.gridx = x;
+	gbc.gridy = y;
+	panel.add(button, gbc);
     }
 }
