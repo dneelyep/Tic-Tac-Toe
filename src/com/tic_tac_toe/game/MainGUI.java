@@ -5,6 +5,8 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.*;
@@ -56,7 +58,7 @@ public class MainGUI extends JFrame implements ActionListener {
      *  player can see game state and interact with the game. */
     public void addControls() {
 	// Create the top-level panel to hold all other components.
-	JPanel topPanel = new JPanel();
+	JPanel topPanel = new JPanel(new GridBagLayout());
 	add(topPanel);
 
 	// Add listeners to detect various events.
@@ -70,19 +72,43 @@ public class MainGUI extends JFrame implements ActionListener {
 	botMid.addActionListener(this);
 	botRight.addActionListener(this);
 	quit.addActionListener(this);
+
+	GridBagConstraints constraints = new GridBagConstraints();
 	
 	// Add the buttons to the top-level panel.
-	topPanel.add(topLeft);
-	topPanel.add(topMid);
-	topPanel.add(topRight);
-	topPanel.add(midLeft);
-	topPanel.add(midMid);
-	topPanel.add(midRight);
-	topPanel.add(botLeft);
-	topPanel.add(botMid);
-	topPanel.add(botRight);
+	constraints.gridx = 0;
+	constraints.gridy = 0;
+	topPanel.add(topLeft, constraints);
 
-	topPanel.add(quit);
+	constraints.gridx = 1;
+	topPanel.add(topMid, constraints);
+
+	constraints.gridx = 2;
+	topPanel.add(topRight, constraints);
+
+	constraints.gridx = 0;
+	constraints.gridy = 1;
+	topPanel.add(midLeft, constraints);
+
+	constraints.gridx = 1;
+	topPanel.add(midMid, constraints);
+
+	constraints.gridx = 2;
+	topPanel.add(midRight, constraints);
+
+	constraints.gridx = 0;
+	constraints.gridy = 2;
+	topPanel.add(botLeft, constraints);
+
+	constraints.gridx = 1;
+	topPanel.add(botMid, constraints);
+
+	constraints.gridx = 2;
+	topPanel.add(botRight, constraints);
+
+	constraints.gridx = 1;
+	constraints.gridy = 3;
+	topPanel.add(quit, constraints);
     }
 
     /** Whenever we receive an event, fire off the appropriate actions. */
