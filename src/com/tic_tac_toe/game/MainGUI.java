@@ -24,15 +24,15 @@ public class MainGUI extends JFrame implements ActionListener {
 
     /** topLeft/Mid/Right/etc.: A series of buttons that depict
      *  the 9 cells in a tic tac toe game. */
-    private JButton topLeft = new JButton(new ImageIcon("/home/daniel/Programming/Java/tic_tac_toe/src/com/tic_tac_toe/game/images/Empty.png"));
-    private JButton topMid = new JButton(new ImageIcon("/home/daniel/Programming/Java/tic_tac_toe/src/com/tic_tac_toe/game/images/Empty.png"));
-    private JButton topRight = new JButton(new ImageIcon("/home/daniel/Programming/Java/tic_tac_toe/src/com/tic_tac_toe/game/images/Empty.png"));
-    private JButton midLeft = new JButton(new ImageIcon("/home/daniel/Programming/Java/tic_tac_toe/src/com/tic_tac_toe/game/images/Empty.png"));
-    private JButton midMid = new JButton(new ImageIcon("/home/daniel/Programming/Java/tic_tac_toe/src/com/tic_tac_toe/game/images/Empty.png"));
-    private JButton midRight = new JButton(new ImageIcon("/home/daniel/Programming/Java/tic_tac_toe/src/com/tic_tac_toe/game/images/Empty.png"));
-    private JButton botLeft = new JButton(new ImageIcon("/home/daniel/Programming/Java/tic_tac_toe/src/com/tic_tac_toe/game/images/Empty.png"));
-    private JButton botMid = new JButton(new ImageIcon("/home/daniel/Programming/Java/tic_tac_toe/src/com/tic_tac_toe/game/images/Empty.png"));
-    private JButton botRight = new JButton(new ImageIcon("/home/daniel/Programming/Java/tic_tac_toe/src/com/tic_tac_toe/game/images/Empty.png"));
+    private JButton topLeft = new JButton(new ImageIcon("../images/Empty.png"));
+    private JButton topMid = new JButton(new ImageIcon("..//images/Empty.png"));
+    private JButton topRight = new JButton(new ImageIcon("../images/Empty.png"));
+    private JButton midLeft = new JButton(new ImageIcon("../images/Empty.png"));
+    private JButton midMid = new JButton(new ImageIcon("../images/Empty.png"));
+    private JButton midRight = new JButton(new ImageIcon("../images/Empty.png"));
+    private JButton botLeft = new JButton(new ImageIcon("../images/Empty.png"));
+    private JButton botMid = new JButton(new ImageIcon("../images/Empty.png"));
+    private JButton botRight = new JButton(new ImageIcon("../images/Empty.png"));
 
     /** The button used to exit out of the game. */
     private JButton quit = new JButton("Quit");
