@@ -24,18 +24,18 @@ public class MainGUI extends JFrame implements ActionListener {
 
     /** topLeft/Mid/Right/etc.: A series of buttons that depict
      *  the 9 cells in a tic tac toe game. */
-    private JButton topLeft = new JButton(new ImageIcon("../images/Empty.png"));
-    private JButton topMid = new JButton(new ImageIcon("..//images/Empty.png"));
-    private JButton topRight = new JButton(new ImageIcon("../images/Empty.png"));
-    private JButton midLeft = new JButton(new ImageIcon("../images/Empty.png"));
-    private JButton midMid = new JButton(new ImageIcon("../images/Empty.png"));
-    private JButton midRight = new JButton(new ImageIcon("../images/Empty.png"));
-    private JButton botLeft = new JButton(new ImageIcon("../images/Empty.png"));
-    private JButton botMid = new JButton(new ImageIcon("../images/Empty.png"));
-    private JButton botRight = new JButton(new ImageIcon("../images/Empty.png"));
+    private JButton topLeft = new JButton(new ImageIcon("../images/Empty.png", "topLeft"));
+    private JButton topMid = new JButton(new ImageIcon("../images/Empty.png", "topMid"));
+    private JButton topRight = new JButton(new ImageIcon("../images/Empty.png", "topRight"));
+    private JButton midLeft = new JButton(new ImageIcon("../images/Empty.png", "midLeft"));
+    private JButton midMid = new JButton(new ImageIcon("../images/Empty.png", "midMid"));
+    private JButton midRight = new JButton(new ImageIcon("../images/Empty.png", "midRight"));
+    private JButton botLeft = new JButton(new ImageIcon("../images/Empty.png", "botLeft"));
+    private JButton botMid = new JButton(new ImageIcon("../images/Empty.png", "botMid"));
+    private JButton botRight = new JButton(new ImageIcon("../images/Empty.png", "botRight"));
 
     /** The button used to exit out of the game. */
-    private JButton quit = new JButton("Quit");
+    private JButton quit = new JButton(new ImageIcon("../images/Quit.png", "Quit"));
 
     
     // TODO: Misleading comment here.
@@ -67,6 +67,29 @@ public class MainGUI extends JFrame implements ActionListener {
 	add(topPanel);
 
 	GridBagConstraints constraints = new GridBagConstraints();
+
+	// TODO: Add this to createControl()?
+	topLeft.setBorder(null);
+	topMid.setBorder(null);
+	topRight.setBorder(null);
+	midLeft.setBorder(null);
+	midMid.setBorder(null);
+	midRight.setBorder(null);
+	botLeft.setBorder(null);
+	botMid.setBorder(null);
+	botRight.setBorder(null);
+	quit.setBorder(null);
+
+	topLeft.setRolloverIcon(new ImageIcon("../images/EmptyRollover.png"));
+	topMid.setRolloverIcon(new ImageIcon("../images/EmptyRollover.png"));
+	topRight.setRolloverIcon(new ImageIcon("../images/EmptyRollover.png"));
+	midLeft.setRolloverIcon(new ImageIcon("../images/EmptyRollover.png"));
+	midMid.setRolloverIcon(new ImageIcon("../images/EmptyRollover.png"));
+	midRight.setRolloverIcon(new ImageIcon("../images/EmptyRollover.png"));
+	botLeft.setRolloverIcon(new ImageIcon("../images/EmptyRollover.png"));
+	botMid.setRolloverIcon(new ImageIcon("../images/EmptyRollover.png"));
+	botRight.setRolloverIcon(new ImageIcon("../images/EmptyRollover.png"));
+	quit.setRolloverIcon(new ImageIcon("../images/QuitRollover.png"));
 	
 	// Add the buttons to the top-level panel.
 	createControl(topPanel, topLeft,  constraints, 0, 0);
@@ -107,7 +130,22 @@ public class MainGUI extends JFrame implements ActionListener {
 
     /** Whenever we receive an event, fire off the appropriate actions. */
     public void actionPerformed(ActionEvent e) {
-	if (e.getActionCommand().equals("Quit")) {
+	JButton sourceButton = (JButton) e.getSource();
+	ImageIcon sourceIcon = (ImageIcon) sourceButton.getIcon();
+
+	System.out.println(sourceIcon.getDescription());
+
+	// topLeft
+	// topMid
+	// topRight
+	// midLeft
+	// midMid
+	// midRight
+	// botLeft
+	// botMid
+	// botRight
+
+	if (sourceIcon.getDescription().equals("Quit")) {
 	    dispose();
 	    System.out.println("Goodbye.");
 	}
