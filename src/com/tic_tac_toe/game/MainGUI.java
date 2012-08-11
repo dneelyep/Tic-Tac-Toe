@@ -1,12 +1,17 @@
 package com.tic_tac_toe.game;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.*;
@@ -109,6 +114,30 @@ public class MainGUI extends JFrame implements ActionListener {
 	constraints.gridx = 1;
 	constraints.gridy = 3;
 	topPanel.add(quit, constraints);
+
+	constraints.gridx = 3;
+	constraints.gridy = 0;
+	constraints.gridheight = 5;
+	constraints.fill = GridBagConstraints.VERTICAL;
+	constraints.insets = new Insets(0, 20, 0, 0);
+	JSeparator boardStatsSeparator = new JSeparator(SwingConstants.VERTICAL);
+	boardStatsSeparator.setPreferredSize(new Dimension(50, 50));
+	topPanel.add(boardStatsSeparator, constraints);
+
+	constraints.gridheight = 1;
+	constraints.gridx = 4;
+	constraints.gridy = 0;
+	constraints.insets = new Insets(0, 0, 0, 0);
+	JLabel xLabel = new JLabel("X:");
+	topPanel.add(xLabel, constraints);
+
+	constraints.gridy = 1;
+	JLabel oLabel = new JLabel("O:");
+	topPanel.add(oLabel, constraints);
+
+	constraints.gridy = 2;
+	JLabel tiesLabel = new JLabel("Ties:");
+	topPanel.add(tiesLabel, constraints);
     }
 
     /** Whenever we receive an event, fire off the appropriate actions. */
