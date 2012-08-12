@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import java.awt.Dimension;
@@ -24,15 +25,15 @@ public class MainGUI extends JFrame implements ActionListener {
 
     /** topLeft/Mid/Right/etc.: A series of buttons that depict
      *  the 9 cells in a tic tac toe game. */
-    private JButton topLeft = new JButton(new ImageIcon("../images/Empty.png", "topLeft"));
-    private JButton topMid = new JButton(new ImageIcon("../images/Empty.png", "topMid"));
-    private JButton topRight = new JButton(new ImageIcon("../images/Empty.png", "topRight"));
-    private JButton midLeft = new JButton(new ImageIcon("../images/Empty.png", "midLeft"));
-    private JButton midMid = new JButton(new ImageIcon("../images/Empty.png", "midMid"));
-    private JButton midRight = new JButton(new ImageIcon("../images/Empty.png", "midRight"));
-    private JButton botLeft = new JButton(new ImageIcon("../images/Empty.png", "botLeft"));
-    private JButton botMid = new JButton(new ImageIcon("../images/Empty.png", "botMid"));
-    private JButton botRight = new JButton(new ImageIcon("../images/Empty.png", "botRight"));
+    private Cell topLeft  = new Cell(new ImageIcon("../images/Empty.png", "topLeft"));
+    private Cell topMid   = new Cell(new ImageIcon("../images/Empty.png", "topMid"));
+    private Cell topRight = new Cell(new ImageIcon("../images/Empty.png", "topRight"));
+    private Cell midLeft  = new Cell(new ImageIcon("../images/Empty.png", "midLeft"));
+    private Cell midMid   = new Cell(new ImageIcon("../images/Empty.png", "midMid"));
+    private Cell midRight = new Cell(new ImageIcon("../images/Empty.png", "midRight"));
+    private Cell botLeft  = new Cell(new ImageIcon("../images/Empty.png", "botLeft"));
+    private Cell botMid   = new Cell(new ImageIcon("../images/Empty.png", "botMid"));
+    private Cell botRight = new Cell(new ImageIcon("../images/Empty.png", "botRight"));
 
     /** The button used to exit out of the game. */
     private JButton quit = new JButton(new ImageIcon("../images/Quit.png", "Quit"));
@@ -103,6 +104,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	createControl(topPanel, botRight, constraints, 2, 2);
 	createControl(topPanel, quit,     constraints, 1, 3);
 
+	// Add the vertical separator between the board and win stats.
 	constraints.gridx = 3;
 	constraints.gridy = 0;
 	constraints.gridheight = 5;
@@ -116,16 +118,34 @@ public class MainGUI extends JFrame implements ActionListener {
 	constraints.gridx = 4;
 	constraints.gridy = 0;
 	constraints.insets = new Insets(0, 0, 0, 0);
-	JLabel xLabel = new JLabel("X:");
+	constraints.fill = SwingConstants.HORIZONTAL;
+	JLabel xLabel = new JLabel("X wins:");
 	topPanel.add(xLabel, constraints);
 
-	constraints.gridy = 1;
-	JLabel oLabel = new JLabel("O:");
-	topPanel.add(oLabel, constraints);
+	constraints.gridx = 5;
+	JTextField xCount = new JTextField("0");
+	xCount.setEditable(false);
+	topPanel.add(xCount, constraints);
 
+	constraints.gridx = 4;
+	constraints.gridy = 1;
+	JLabel oLabel = new JLabel("O wins:");
+	topPanel.add(oLabel, constraints);
+	
+	constraints.gridx = 5;
+	JTextField oCount = new JTextField("0");
+	oCount.setEditable(false);
+	topPanel.add(oCount, constraints);
+
+	constraints.gridx = 4;
 	constraints.gridy = 2;
 	JLabel tiesLabel = new JLabel("Ties:");
 	topPanel.add(tiesLabel, constraints);
+
+	constraints.gridx = 5;
+	JTextField tiesCount = new JTextField("0");
+	tiesCount.setEditable(false);
+	topPanel.add(tiesCount, constraints);
     }
 
     /** Whenever we receive an event, fire off the appropriate actions. */
@@ -135,6 +155,7 @@ public class MainGUI extends JFrame implements ActionListener {
 
 	System.out.println(sourceIcon.getDescription());
 
+	// Set the owner of the clicked button to the human player (X).
 	// topLeft
 	// topMid
 	// topRight
@@ -149,6 +170,13 @@ public class MainGUI extends JFrame implements ActionListener {
 	    dispose();
 	    System.out.println("Goodbye.");
 	}
+	// If we're not referring to the Quit button, we're referring to a cell.
+	else {
+	    Cell cellSourceButton = (Cell) sourceButton;
+	    cellSourceButton.setOwner('X');
+	    cellSourceButton.setRolloverIcon(new ImageIcon("../images/XRollover.png"));
+	    cellSourceButton.setIcon(new ImageIcon("../images/X.png"));
+	}
     }
 
     /** Given a JPanel panel, a JButton button, some GridBagConstraints gbc, 
@@ -158,6 +186,11 @@ public class MainGUI extends JFrame implements ActionListener {
 	button.addActionListener(this);
 	gbc.gridx = x;
 	gbc.gridy = y;
+	//	gbc.gridheight = 3;
+	// }
+	// else {
+	//     gbc.gridheight = 1;
+	// }
 	panel.add(button, gbc);
     }
 }
