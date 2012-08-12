@@ -153,29 +153,17 @@ public class MainGUI extends JFrame implements ActionListener {
 	JButton sourceButton = (JButton) e.getSource();
 	ImageIcon sourceIcon = (ImageIcon) sourceButton.getIcon();
 
-	System.out.println(sourceIcon.getDescription());
-
-	// Set the owner of the clicked button to the human player (X).
-	// topLeft
-	// topMid
-	// topRight
-	// midLeft
-	// midMid
-	// midRight
-	// botLeft
-	// botMid
-	// botRight
-
 	if (sourceIcon.getDescription().equals("Quit")) {
 	    dispose();
 	    System.out.println("Goodbye.");
 	}
-	// If we're not referring to the Quit button, we're referring to a cell.
 	else {
+	    // If we're not referring to the Quit button, we're referring to a Cell.
 	    Cell cellSourceButton = (Cell) sourceButton;
-	    cellSourceButton.setOwner('X');
-	    cellSourceButton.setRolloverIcon(new ImageIcon("../images/XRollover.png"));
-	    cellSourceButton.setIcon(new ImageIcon("../images/X.png"));
+
+	    // Make sure the Cell does not already have an owner.
+	    if (cellSourceButton.getOwner() != 'X' && cellSourceButton.getOwner() != 'O')
+		cellSourceButton.setOwner('X');
 	}
     }
 
@@ -186,11 +174,6 @@ public class MainGUI extends JFrame implements ActionListener {
 	button.addActionListener(this);
 	gbc.gridx = x;
 	gbc.gridy = y;
-	//	gbc.gridheight = 3;
-	// }
-	// else {
-	//     gbc.gridheight = 1;
-	// }
 	panel.add(button, gbc);
     }
 }
