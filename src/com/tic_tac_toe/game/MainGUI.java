@@ -162,8 +162,12 @@ public class MainGUI extends JFrame implements ActionListener {
 	    Cell cellSourceButton = (Cell) sourceButton;
 
 	    // Make sure the Cell does not already have an owner.
-	    if (cellSourceButton.getOwner() != 'X' && cellSourceButton.getOwner() != 'O')
+	    if (cellSourceButton.isOwned() == false)
 		cellSourceButton.setOwner('X');
+
+	    checkForWinner();
+	    //	    AIDoTurn();
+	    //      checkForWinner();
 	}
     }
 
@@ -175,5 +179,64 @@ public class MainGUI extends JFrame implements ActionListener {
 	gbc.gridx = x;
 	gbc.gridy = y;
 	panel.add(button, gbc);
+    }
+
+    /** Check to see if player X or O has won this game. */
+    public void checkForWinner() {
+	// One player owns all the Cells on the top row.
+	if (topLeft.getOwner() == topMid.getOwner() && 
+	    topMid.getOwner() == topRight.getOwner() && 
+	    topLeft.getOwner() != '-') {
+	    System.out.println("Winner: " + topLeft.getOwner());
+	}
+
+	// One player owns all the Cells on the middle row.
+	else if (midLeft.getOwner() == midMid.getOwner() && 
+	    midMid.getOwner() == midRight.getOwner() && 
+	    midLeft.getOwner() != '-') {
+	    System.out.println("Winner: " + midLeft.getOwner());
+	}
+
+	// One player owns all the Cells on the bottom row.
+	else if (botLeft.getOwner() == botMid.getOwner() && 
+	    botMid.getOwner() == botRight.getOwner() && 
+	    botLeft.getOwner() != '-') {
+	    System.out.println("Winner: " + botLeft.getOwner());
+	}
+
+	// One player owns all the Cells on the left column.
+	else if (topLeft.getOwner() == midLeft.getOwner() && 
+	    midLeft.getOwner() == botLeft.getOwner() && 
+	    topLeft.getOwner() != '-') {
+	    System.out.println("Winner: " + topLeft.getOwner());
+	}
+
+	// One player owns all the Cells on the middle column.
+	else if (topMid.getOwner() == midMid.getOwner() && 
+	    midMid.getOwner() == botMid.getOwner() && 
+	    topMid.getOwner() != '-') {
+	    System.out.println("Winner: " + topMid.getOwner());
+	}
+
+	// One player owns all the Cells on the right column.
+	else if (topRight.getOwner() == midRight.getOwner() && 
+	    midRight.getOwner() == botRight.getOwner() && 
+	    topRight.getOwner() != '-') {
+	    System.out.println("Winner: " + topRight.getOwner());
+	}
+
+	// One player owns all the Cells diagonally from top-left to bottom-right.
+	else if (topLeft.getOwner() == midMid.getOwner() && 
+	    midMid.getOwner() == botRight.getOwner() && 
+	    topLeft.getOwner() != '-') {
+	    System.out.println("Winner: " + topLeft.getOwner());
+	}
+
+	// One player owns all the Cells diagonally from bottom-left to top-right.
+	else if (botLeft.getOwner() == midMid.getOwner() && 
+	    midMid.getOwner() == topRight.getOwner() && 
+	    botLeft.getOwner() != '-') {
+	    System.out.println("Winner: " + botLeft.getOwner());
+	}
     }
 }

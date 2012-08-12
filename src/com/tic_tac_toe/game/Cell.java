@@ -47,4 +47,13 @@ public class Cell extends JButton {
     public char getOwner() {
 	return owner;
     }
+
+    /** Return true if this Cell is owned by X or O.
+     *  If not, return false.*/
+    public boolean isOwned() {
+	if (owner == 'X' || owner == 'O')
+	    return true;
+	else
+	    return false;
+    }
 }
