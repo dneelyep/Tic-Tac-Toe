@@ -4,6 +4,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
@@ -16,6 +17,7 @@ import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.*;
+import java.util.Random;
 
 /** MainGUI.java - Class that starts the game, and displays game state 
  *              via graphics, etc.
@@ -37,6 +39,19 @@ public class MainGUI extends JFrame implements ActionListener {
 
     /** The button used to exit out of the game. */
     private JButton quit = new JButton(new ImageIcon("../images/Quit.png", "Quit"));
+
+    /** Text field that holds the number of times player X has won. */
+    private JTextField xCount = new JTextField("0");
+
+    /** Text field that holds the number of times player O has won. */
+    private JTextField oCount = new JTextField("0");
+
+    /** Text field that holds the number of times both players have tied. */
+    private JTextField tiesCount = new JTextField("0");
+
+
+    /** The top-level panel that holds all components in this object. */
+    private JPanel topPanel = new JPanel(new GridBagLayout());
 
     
     // TODO: Misleading comment here.
@@ -63,8 +78,6 @@ public class MainGUI extends JFrame implements ActionListener {
     /** Add all controls and visual components to the board so that the
      *  player can see game state and interact with the game. */
     public void addControls() {
-	// Create the top-level panel to hold all other components.
-	JPanel topPanel = new JPanel(new GridBagLayout());
 	add(topPanel);
 
 	GridBagConstraints constraints = new GridBagConstraints();
@@ -123,7 +136,6 @@ public class MainGUI extends JFrame implements ActionListener {
 	topPanel.add(xLabel, constraints);
 
 	constraints.gridx = 5;
-	JTextField xCount = new JTextField("0");
 	xCount.setEditable(false);
 	topPanel.add(xCount, constraints);
 
@@ -133,7 +145,6 @@ public class MainGUI extends JFrame implements ActionListener {
 	topPanel.add(oLabel, constraints);
 	
 	constraints.gridx = 5;
-	JTextField oCount = new JTextField("0");
 	oCount.setEditable(false);
 	topPanel.add(oCount, constraints);
 
@@ -143,7 +154,6 @@ public class MainGUI extends JFrame implements ActionListener {
 	topPanel.add(tiesLabel, constraints);
 
 	constraints.gridx = 5;
-	JTextField tiesCount = new JTextField("0");
 	tiesCount.setEditable(false);
 	topPanel.add(tiesCount, constraints);
     }
@@ -165,9 +175,48 @@ public class MainGUI extends JFrame implements ActionListener {
 	    if (cellSourceButton.isOwned() == false)
 		cellSourceButton.setOwner('X');
 
-	    checkForWinner();
-	    //	    AIDoTurn();
-	    //      checkForWinner();
+
+	    // If there's a tie or a player wins, pop up the end game dialog.
+	    // TODO: Would be good if checkForWinner() implemented the dialog parts.
+	    if (checkForWinner() == 'O' || checkForWinner() == 'X') {
+		JOptionPane.showMessageDialog(topPanel, "Player " + checkForWinner() + " wins!");
+		if (checkForWinner() == 'O') {
+		    int winsValue = Integer.parseInt(oCount.getText());
+		    oCount.setText(Integer.toString(winsValue + 1));
+		}
+		else {
+		    int winsValue = Integer.parseInt(xCount.getText());
+		    xCount.setText(Integer.toString(winsValue + 1));
+		}
+	    }
+
+	    else if (checkForWinner() == 't') {
+		JOptionPane.showMessageDialog(topPanel, "Tie game! No winner.");
+		int tiesValue = Integer.parseInt(tiesCount.getText());
+		tiesCount.setText(Integer.toString(tiesValue + 1));
+	    }
+	    else {
+		AIDoTurn();
+
+		// And check for a winner again, after the computer makes its move.
+		if (checkForWinner() == 'O' || checkForWinner() == 'X') {
+		    JOptionPane.showMessageDialog(topPanel, "Player " + checkForWinner() + " wins!");
+		    if (checkForWinner() == 'O') {
+			int winsValue = Integer.parseInt(oCount.getText());
+			oCount.setText(Integer.toString(winsValue + 1));
+		    }
+		    else {
+			int winsValue = Integer.parseInt(xCount.getText());
+			xCount.setText(Integer.toString(winsValue + 1));
+		    }
+		}
+		// TODO: Get rid of this duplication.
+		else if (checkForWinner() == 't') {
+		    JOptionPane.showMessageDialog(topPanel, "Tie game! No winner.");
+		    int tiesValue = Integer.parseInt(tiesCount.getText());
+		    tiesCount.setText(Integer.toString(tiesValue + 1));
+		}
+	    }
 	}
     }
 
@@ -182,61 +231,103 @@ public class MainGUI extends JFrame implements ActionListener {
     }
 
     /** Check to see if player X or O has won this game. */
-    public void checkForWinner() {
+    public char checkForWinner() {
 	// One player owns all the Cells on the top row.
 	if (topLeft.getOwner() == topMid.getOwner() && 
 	    topMid.getOwner() == topRight.getOwner() && 
 	    topLeft.getOwner() != '-') {
-	    System.out.println("Winner: " + topLeft.getOwner());
+	    return topLeft.getOwner();
 	}
 
 	// One player owns all the Cells on the middle row.
 	else if (midLeft.getOwner() == midMid.getOwner() && 
 	    midMid.getOwner() == midRight.getOwner() && 
 	    midLeft.getOwner() != '-') {
-	    System.out.println("Winner: " + midLeft.getOwner());
+	    return midLeft.getOwner();
 	}
 
 	// One player owns all the Cells on the bottom row.
 	else if (botLeft.getOwner() == botMid.getOwner() && 
 	    botMid.getOwner() == botRight.getOwner() && 
 	    botLeft.getOwner() != '-') {
-	    System.out.println("Winner: " + botLeft.getOwner());
+	    return botLeft.getOwner();
 	}
 
 	// One player owns all the Cells on the left column.
 	else if (topLeft.getOwner() == midLeft.getOwner() && 
 	    midLeft.getOwner() == botLeft.getOwner() && 
 	    topLeft.getOwner() != '-') {
-	    System.out.println("Winner: " + topLeft.getOwner());
+	    return topLeft.getOwner();
 	}
 
 	// One player owns all the Cells on the middle column.
 	else if (topMid.getOwner() == midMid.getOwner() && 
 	    midMid.getOwner() == botMid.getOwner() && 
 	    topMid.getOwner() != '-') {
-	    System.out.println("Winner: " + topMid.getOwner());
+	    return topMid.getOwner();
 	}
 
 	// One player owns all the Cells on the right column.
 	else if (topRight.getOwner() == midRight.getOwner() && 
 	    midRight.getOwner() == botRight.getOwner() && 
 	    topRight.getOwner() != '-') {
-	    System.out.println("Winner: " + topRight.getOwner());
+	    return topRight.getOwner();
 	}
 
 	// One player owns all the Cells diagonally from top-left to bottom-right.
 	else if (topLeft.getOwner() == midMid.getOwner() && 
 	    midMid.getOwner() == botRight.getOwner() && 
 	    topLeft.getOwner() != '-') {
-	    System.out.println("Winner: " + topLeft.getOwner());
+	    return topLeft.getOwner();
 	}
 
 	// One player owns all the Cells diagonally from bottom-left to top-right.
 	else if (botLeft.getOwner() == midMid.getOwner() && 
 	    midMid.getOwner() == topRight.getOwner() && 
 	    botLeft.getOwner() != '-') {
-	    System.out.println("Winner: " + botLeft.getOwner());
+	    return botLeft.getOwner();
 	}
+
+	// All Cells are owned, but no winner has been previously declared.
+	// In this case, we have a tie.
+	else if (topLeft.getOwner()  != '-' &&
+		 midLeft.getOwner()  != '-' &&
+		 botLeft.getOwner()  != '-' &&
+		 topMid.getOwner()   != '-' &&
+		 midMid.getOwner()   != '-' &&
+		 botMid.getOwner()   != '-' &&
+		 topRight.getOwner() != '-' &&
+		 midRight.getOwner() != '-' &&
+		 botRight.getOwner() != '-') {
+	    return 't';
+	}
+
+	// No winner so far.
+	else
+	    return 'n';
+    }
+
+    /** Have the computer player randomly select a Cell and attempt
+     *  to own it. */
+    public void AIDoTurn() {
+	Cell[] cells = {topLeft,
+			midLeft,
+			botLeft,
+			topMid,
+			midMid,
+			botMid,
+			topRight,
+			midRight,
+			botRight};
+
+	// Select a random number for the cell. If it's owned, try again.
+	// Else, buy the cell.
+	Random roll = new Random();
+	int num = roll.nextInt(9);
+
+	if (cells[num].isOwned() == true)
+		AIDoTurn();
+	else
+	    cells[num].setOwner('O');
     }
 }
