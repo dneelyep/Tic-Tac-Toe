@@ -11,10 +11,13 @@ import javax.swing.JButton;
 public class Cell extends JButton {
     private char owner;
 
-    /** Cell constructor. Set the image for this Cell, and
-     *  set this Cell to have no owner. */
+    /** Cell constructor. Set the regular and rollover images
+     *  for this Cell, and set this Cell to have no owner. Also,
+     *  remove any border from this Cell. */
     public Cell(ImageIcon image) {
 	super(image);
+	setRolloverIcon(new ImageIcon("../images/EmptyRollover.png"));
+	setBorder(null);
 	owner = '-';
     }
 

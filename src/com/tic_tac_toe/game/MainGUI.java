@@ -82,40 +82,20 @@ public class MainGUI extends JFrame implements ActionListener {
 
 	GridBagConstraints constraints = new GridBagConstraints();
 
-	// TODO: Add this to createControl()?
-	topLeft.setBorder(null);
-	topMid.setBorder(null);
-	topRight.setBorder(null);
-	midLeft.setBorder(null);
-	midMid.setBorder(null);
-	midRight.setBorder(null);
-	botLeft.setBorder(null);
-	botMid.setBorder(null);
-	botRight.setBorder(null);
 	quit.setBorder(null);
-
-	topLeft.setRolloverIcon(new ImageIcon("../images/EmptyRollover.png"));
-	topMid.setRolloverIcon(new ImageIcon("../images/EmptyRollover.png"));
-	topRight.setRolloverIcon(new ImageIcon("../images/EmptyRollover.png"));
-	midLeft.setRolloverIcon(new ImageIcon("../images/EmptyRollover.png"));
-	midMid.setRolloverIcon(new ImageIcon("../images/EmptyRollover.png"));
-	midRight.setRolloverIcon(new ImageIcon("../images/EmptyRollover.png"));
-	botLeft.setRolloverIcon(new ImageIcon("../images/EmptyRollover.png"));
-	botMid.setRolloverIcon(new ImageIcon("../images/EmptyRollover.png"));
-	botRight.setRolloverIcon(new ImageIcon("../images/EmptyRollover.png"));
 	quit.setRolloverIcon(new ImageIcon("../images/QuitRollover.png"));
 	
 	// Add the buttons to the top-level panel.
-	createControl(topPanel, topLeft,  constraints, 0, 0);
-	createControl(topPanel, topMid,   constraints, 1, 0);
-	createControl(topPanel, topRight, constraints, 2, 0);
-	createControl(topPanel, midLeft,  constraints, 0, 1);
-	createControl(topPanel, midMid,   constraints, 1, 1);
-	createControl(topPanel, midRight, constraints, 2, 1);
-	createControl(topPanel, botLeft,  constraints, 0, 2);
-	createControl(topPanel, botMid,   constraints, 1, 2);
-	createControl(topPanel, botRight, constraints, 2, 2);
-	createControl(topPanel, quit,     constraints, 1, 3);
+	createControl(topLeft,  constraints, 0, 0);
+	createControl(topMid,   constraints, 1, 0);
+	createControl(topRight, constraints, 2, 0);
+	createControl(midLeft,  constraints, 0, 1);
+	createControl(midMid,   constraints, 1, 1);
+	createControl(midRight, constraints, 2, 1);
+	createControl(botLeft,  constraints, 0, 2);
+	createControl(botMid,   constraints, 1, 2);
+	createControl(botRight, constraints, 2, 2);
+	createControl(quit,     constraints, 1, 3);
 
 	// Add the vertical separator between the board and win stats.
 	constraints.gridx = 3;
@@ -184,88 +164,62 @@ public class MainGUI extends JFrame implements ActionListener {
 	}
     }
 
-    /** Given a JPanel panel, a JButton button, some GridBagConstraints gbc, 
-     *  and some x/y coordinates, add button to the panel with gridx/y as x and y.
+    /** Given a JButton button, some GridBagConstraints gbc, 
+     *  and some x/y coordinates, add button to the topPanel with gridx/y as x and y.
      *  Also add an ActionListener to the button, so it can listen for events. */
-    public void createControl(JPanel panel, JButton button, GridBagConstraints gbc, int x, int y) {
+    public void createControl(JButton button, GridBagConstraints gbc, int x, int y) {
 	button.addActionListener(this);
 	gbc.gridx = x;
 	gbc.gridy = y;
-	panel.add(button, gbc);
+	topPanel.add(button, gbc);
     }
 
     /** Check to see if player X or O has won this game. */
     public char checkForWinner() {
-	// TODO: Try to find a way to shorten this method down a bit.
-	// One player owns all the Cells on the top row.
-	if (topLeft.getOwner() == topMid.getOwner() && 
-	    topMid.getOwner() == topRight.getOwner() && 
-	    topLeft.getOwner() != '-') {
+	// One player owns the top row.
+	if (ownersAreEqual(topLeft, topMid, topRight))
 	    return topLeft.getOwner();
-	}
 
-	// One player owns all the Cells on the middle row.
-	else if (midLeft.getOwner() == midMid.getOwner() && 
-	    midMid.getOwner() == midRight.getOwner() && 
-	    midLeft.getOwner() != '-') {
+	// One player owns the middle row.
+	else if (ownersAreEqual(midLeft, midMid, midRight))
 	    return midLeft.getOwner();
-	}
 
-	// One player owns all the Cells on the bottom row.
-	else if (botLeft.getOwner() == botMid.getOwner() && 
-	    botMid.getOwner() == botRight.getOwner() && 
-	    botLeft.getOwner() != '-') {
+	// One player owns the bottom row.
+	else if (ownersAreEqual(botLeft, botMid, botRight))
 	    return botLeft.getOwner();
-	}
 
-	// One player owns all the Cells on the left column.
-	else if (topLeft.getOwner() == midLeft.getOwner() && 
-	    midLeft.getOwner() == botLeft.getOwner() && 
-	    topLeft.getOwner() != '-') {
+	// One player owns the left column.
+	else if (ownersAreEqual(topLeft, midLeft, botLeft))
 	    return topLeft.getOwner();
-	}
 
-	// One player owns all the Cells on the middle column.
-	else if (topMid.getOwner() == midMid.getOwner() && 
-	    midMid.getOwner() == botMid.getOwner() && 
-	    topMid.getOwner() != '-') {
+	// One player owns the middle column.
+	else if (ownersAreEqual(topMid, midMid, botMid))
 	    return topMid.getOwner();
-	}
 
-	// One player owns all the Cells on the right column.
-	else if (topRight.getOwner() == midRight.getOwner() && 
-	    midRight.getOwner() == botRight.getOwner() && 
-	    topRight.getOwner() != '-') {
+	// One player owns the right column.
+	else if (ownersAreEqual(topRight, midRight, botRight))
 	    return topRight.getOwner();
-	}
 
-	// One player owns all the Cells diagonally from top-left to bottom-right.
-	else if (topLeft.getOwner() == midMid.getOwner() && 
-	    midMid.getOwner() == botRight.getOwner() && 
-	    topLeft.getOwner() != '-') {
+	// One player owns from top-left to bottom-right.
+	else if (ownersAreEqual(topLeft, midMid, botRight))
 	    return topLeft.getOwner();
-	}
 
-	// One player owns all the Cells diagonally from bottom-left to top-right.
-	else if (botLeft.getOwner() == midMid.getOwner() && 
-	    midMid.getOwner() == topRight.getOwner() && 
-	    botLeft.getOwner() != '-') {
+	// One player owns from bottom-left to top-right.
+	else if (ownersAreEqual(botLeft, midMid, topRight))
 	    return botLeft.getOwner();
-	}
 
 	// All Cells are owned, but no winner has been previously declared.
 	// In this case, we have a tie.
-	else if (topLeft.getOwner()  != '-' &&
-		 midLeft.getOwner()  != '-' &&
-		 botLeft.getOwner()  != '-' &&
-		 topMid.getOwner()   != '-' &&
-		 midMid.getOwner()   != '-' &&
-		 botMid.getOwner()   != '-' &&
-		 topRight.getOwner() != '-' &&
-		 midRight.getOwner() != '-' &&
-		 botRight.getOwner() != '-') {
+	else if (topLeft.isOwned()  == true &&
+		 midLeft.isOwned()  == true &&
+		 botLeft.isOwned()  == true &&
+		 topMid.isOwned()   == true &&
+		 midMid.isOwned()   == true &&
+		 botMid.isOwned()   == true &&
+		 topRight.isOwned() == true &&
+		 midRight.isOwned() == true &&
+		 botRight.isOwned() == true)
 	    return 'T';
-	}
 
 	// No winner so far.
 	else
@@ -291,7 +245,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	int num = roll.nextInt(9);
 
 	if (cells[num].isOwned() == true)
-		AIDoTurn();
+	    AIDoTurn();
 	else
 	    cells[num].setOwner('O');
     }
@@ -313,5 +267,16 @@ public class MainGUI extends JFrame implements ActionListener {
 	    JOptionPane.showMessageDialog(topPanel, "Tie game! No winner.");
 	    tiesCount.setText(Integer.toString(Integer.parseInt(tiesCount.getText()) + 1));
 	}
+    }
+
+    /** For three Cells a, b, and c, see if they all have the same owner, when
+     *  the owner is player X or O. If they do, return true. Else, return false. */
+    private boolean ownersAreEqual(Cell a, Cell b, Cell c) {
+	if (a.getOwner() == b.getOwner() &&
+	    b.getOwner() == c.getOwner() &&
+	    a.getOwner() != '-')
+	    return true;
+	else
+	    return false;
     }
 }
