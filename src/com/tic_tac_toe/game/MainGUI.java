@@ -175,48 +175,12 @@ public class MainGUI extends JFrame implements ActionListener {
 	    if (cellSourceButton.isOwned() == false)
 		cellSourceButton.setOwner('X');
 
-
-	    // If there's a tie or a player wins, pop up the end game dialog.
-	    // TODO: Would be good if checkForWinner() implemented the dialog parts.
-	    if (checkForWinner() == 'O' || checkForWinner() == 'X') {
-		JOptionPane.showMessageDialog(topPanel, "Player " + checkForWinner() + " wins!");
-		if (checkForWinner() == 'O') {
-		    int winsValue = Integer.parseInt(oCount.getText());
-		    oCount.setText(Integer.toString(winsValue + 1));
-		}
-		else {
-		    int winsValue = Integer.parseInt(xCount.getText());
-		    xCount.setText(Integer.toString(winsValue + 1));
-		}
-	    }
-
-	    else if (checkForWinner() == 't') {
-		JOptionPane.showMessageDialog(topPanel, "Tie game! No winner.");
-		int tiesValue = Integer.parseInt(tiesCount.getText());
-		tiesCount.setText(Integer.toString(tiesValue + 1));
-	    }
-	    else {
+	    // If nobody has won yet, have the computer do a turn.
+	    if (checkForWinner() == 'N')
 		AIDoTurn();
 
-		// And check for a winner again, after the computer makes its move.
-		if (checkForWinner() == 'O' || checkForWinner() == 'X') {
-		    JOptionPane.showMessageDialog(topPanel, "Player " + checkForWinner() + " wins!");
-		    if (checkForWinner() == 'O') {
-			int winsValue = Integer.parseInt(oCount.getText());
-			oCount.setText(Integer.toString(winsValue + 1));
-		    }
-		    else {
-			int winsValue = Integer.parseInt(xCount.getText());
-			xCount.setText(Integer.toString(winsValue + 1));
-		    }
-		}
-		// TODO: Get rid of this duplication.
-		else if (checkForWinner() == 't') {
-		    JOptionPane.showMessageDialog(topPanel, "Tie game! No winner.");
-		    int tiesValue = Integer.parseInt(tiesCount.getText());
-		    tiesCount.setText(Integer.toString(tiesValue + 1));
-		}
-	    }
+	    // And, if a player won or there's a tie, pop up the game-ending window.
+	    doGameEndActions();
 	}
     }
 
@@ -232,6 +196,7 @@ public class MainGUI extends JFrame implements ActionListener {
 
     /** Check to see if player X or O has won this game. */
     public char checkForWinner() {
+	// TODO: Try to find a way to shorten this method down a bit.
 	// One player owns all the Cells on the top row.
 	if (topLeft.getOwner() == topMid.getOwner() && 
 	    topMid.getOwner() == topRight.getOwner() && 
@@ -299,12 +264,12 @@ public class MainGUI extends JFrame implements ActionListener {
 		 topRight.getOwner() != '-' &&
 		 midRight.getOwner() != '-' &&
 		 botRight.getOwner() != '-') {
-	    return 't';
+	    return 'T';
 	}
 
 	// No winner so far.
 	else
-	    return 'n';
+	    return 'N';
     }
 
     /** Have the computer player randomly select a Cell and attempt
@@ -329,5 +294,24 @@ public class MainGUI extends JFrame implements ActionListener {
 		AIDoTurn();
 	else
 	    cells[num].setOwner('O');
+    }
+
+    /** If a player won the game or there is a tie, pop up
+     *  the relevant dialog and increment the correct win score.
+     *  If the game is not yet ended, do nothing. */
+    public void doGameEndActions() {
+	if (checkForWinner() == 'O' || checkForWinner() == 'X') {
+	    JOptionPane.showMessageDialog(topPanel, "Player " + checkForWinner() + " wins!");
+	    if (checkForWinner() == 'O')
+		oCount.setText(Integer.toString(Integer.parseInt(oCount.getText()) + 1));
+	    else
+		xCount.setText(Integer.toString(Integer.parseInt(xCount.getText()) + 1));
+	}
+
+	// TODO: Get rid of this duplication.
+	else if (checkForWinner() == 'T') {
+	    JOptionPane.showMessageDialog(topPanel, "Tie game! No winner.");
+	    tiesCount.setText(Integer.toString(Integer.parseInt(tiesCount.getText()) + 1));
+	}
     }
 }
