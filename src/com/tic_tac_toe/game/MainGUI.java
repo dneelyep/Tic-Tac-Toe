@@ -9,15 +9,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
-import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.*;
 import java.util.Random;
 
 /** MainGUI.java - Class that starts the game, and displays game state 
@@ -53,7 +50,6 @@ public class MainGUI extends JFrame implements ActionListener {
 
     /** The top-level panel that holds all components in this object. */
     private JPanel topPanel = new JPanel(new GridBagLayout());
-
     
     /** Start a new game of tic-tac-toe, with an empty board and each
      *  player's win values set to 0. */
