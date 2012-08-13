@@ -11,7 +11,8 @@ import javax.swing.JButton;
 public class Cell extends JButton {
 
     /** A character that represents the owner of this Cell.
-     *  'X' means player X, 'O' means player O, '-' means unowned.*/
+     *  'X' means player X, 'O' means player O, 'N' 
+     *  means owned by noone. */
     private char owner;
 
     /** Set the regular and rollover images for this Cell, 
@@ -20,31 +21,21 @@ public class Cell extends JButton {
      *  to this Cell for events. */
     public Cell(MainGUI gui, String description) {
 	// Give each Cell an empty initial icon.
-	super(new ImageIcon("../images/Empty.png", description));
-	setRolloverIcon(new ImageIcon("../images/EmptyRollover.png"));
+	super(new ImageIcon("../images/N.png", description));
+	setRolloverIcon(new ImageIcon("../images/NRollover.png"));
 	setBorder(null);
 	addActionListener(gui);
-	owner = '-';
+	owner = 'N';
     }
 
     /** Change the owner of this cell to player X, player O, 
      *  or make it un-owned. In the process, change regular and
      *  rollover images associated with this Cell. */
     public void setOwner(char player) {
-	if (player == 'X') {
-	    owner = 'X';
-	    setIcon(new ImageIcon("../images/X.png"));
-	    setRolloverIcon(new ImageIcon("../images/XRollover.png"));
-	}
-	else if (player == 'O') {
-	    owner = 'O';
-	    setIcon(new ImageIcon("../images/O.png"));
-	    setRolloverIcon(new ImageIcon("../images/ORollover.png"));
-	}
-	else if (player == '-') {
-	    owner = '-';
-	    setIcon(new ImageIcon("../images/Empty.png"));
-	    setRolloverIcon(new ImageIcon("../images/EmptyRollover.png"));
+	if (player == 'X' || player == 'O' || player == 'N') {
+	    owner = player;
+	    setIcon(new ImageIcon("../images/" + player + ".png"));
+	    setRolloverIcon(new ImageIcon("../images/" + player + "Rollover.png"));
 	}
 	else {
 	    System.out.println("Error: Tried to set owner to an invalid player.");

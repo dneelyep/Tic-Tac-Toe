@@ -135,6 +135,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	    Cell cellSourceButton = (Cell) sourceButton;
 
 	    // Make sure the Cell does not already have an owner.
+	    // TODO: Don't allow the player to click an owned cell, and thus forfeit their turn.
 	    if (cellSourceButton.isOwned() == false)
 		cellSourceButton.setOwner('X');
 
@@ -254,7 +255,8 @@ public class MainGUI extends JFrame implements ActionListener {
     private boolean ownersAreEqual(Cell a, Cell b, Cell c) {
 	if (a.getOwner() == b.getOwner() &&
 	    b.getOwner() == c.getOwner() &&
-	    a.getOwner() != '-')
+	    a.getOwner() != 'N')
+	    // TODO: change a.getOwner() != 'N' to a.isOwned()
 	    return true;
 	else
 	    return false;
