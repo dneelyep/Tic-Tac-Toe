@@ -9,15 +9,21 @@ import javax.swing.JButton;
  *
  * @author Daniel Neel */
 public class Cell extends JButton {
+
+    /** A character that represents the owner of this Cell.
+     *  'X' means player X, 'O' means player O, '-' means unowned.*/
     private char owner;
 
-    /** Cell constructor. Set the regular and rollover images
-     *  for this Cell, and set this Cell to have no owner. Also,
-     *  remove any border from this Cell. */
-    public Cell(ImageIcon image) {
-	super(image);
+    /** Set the regular and rollover images for this Cell, 
+     *  and set this Cell to have no owner. Also, remove
+     *  any border from this Cell. Have the MainGUI gui listen
+     *  to this Cell for events. */
+    public Cell(MainGUI gui, String description) {
+	// Give each Cell an empty initial icon.
+	super(new ImageIcon("../images/Empty.png", description));
 	setRolloverIcon(new ImageIcon("../images/EmptyRollover.png"));
 	setBorder(null);
+	addActionListener(gui);
 	owner = '-';
     }
 

@@ -2,6 +2,7 @@ package com.tic_tac_toe.game;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -27,15 +28,15 @@ public class MainGUI extends JFrame implements ActionListener {
 
     /** topLeft/Mid/Right/etc.: A series of buttons that depict
      *  the 9 cells in a tic tac toe game. */
-    private Cell topLeft  = new Cell(new ImageIcon("../images/Empty.png", "topLeft"));
-    private Cell topMid   = new Cell(new ImageIcon("../images/Empty.png", "topMid"));
-    private Cell topRight = new Cell(new ImageIcon("../images/Empty.png", "topRight"));
-    private Cell midLeft  = new Cell(new ImageIcon("../images/Empty.png", "midLeft"));
-    private Cell midMid   = new Cell(new ImageIcon("../images/Empty.png", "midMid"));
-    private Cell midRight = new Cell(new ImageIcon("../images/Empty.png", "midRight"));
-    private Cell botLeft  = new Cell(new ImageIcon("../images/Empty.png", "botLeft"));
-    private Cell botMid   = new Cell(new ImageIcon("../images/Empty.png", "botMid"));
-    private Cell botRight = new Cell(new ImageIcon("../images/Empty.png", "botRight"));
+    private Cell topLeft  = new Cell(this, "topLeft");
+    private Cell topMid   = new Cell(this, "topMid");
+    private Cell topRight = new Cell(this, "topRight");
+    private Cell midLeft  = new Cell(this, "midLeft");
+    private Cell midMid   = new Cell(this, "midMid");
+    private Cell midRight = new Cell(this, "midRight");
+    private Cell botLeft  = new Cell(this, "botLeft");
+    private Cell botMid   = new Cell(this, "botMid");
+    private Cell botRight = new Cell(this, "botRight");
 
     /** The button used to exit out of the game. */
     private JButton quit = new JButton(new ImageIcon("../images/Quit.png", "Quit"));
@@ -54,9 +55,8 @@ public class MainGUI extends JFrame implements ActionListener {
     private JPanel topPanel = new JPanel(new GridBagLayout());
 
     
-    // TODO: Misleading comment here.
-    /** Bring up the main menu, allowing the player to 
-     *  start a game or quit. */
+    /** Start a new game of tic-tac-toe, with an empty board and each
+     *  player's win values set to 0. */
     public static void main(String args[]) {
 	new MainGUI();
     }
@@ -80,62 +80,45 @@ public class MainGUI extends JFrame implements ActionListener {
     public void addControls() {
 	add(topPanel);
 
-	GridBagConstraints constraints = new GridBagConstraints();
+	// Make the fields that contain win stats un-editable.
+	xCount.setEditable(false);
+	oCount.setEditable(false);
+	tiesCount.setEditable(false);
 
 	quit.setBorder(null);
 	quit.setRolloverIcon(new ImageIcon("../images/QuitRollover.png"));
+	quit.addActionListener(this);
+
+	GridBagConstraints constraints = new GridBagConstraints();
 	
-	// Add the buttons to the top-level panel.
-	createControl(topLeft,  constraints, 0, 0);
-	createControl(topMid,   constraints, 1, 0);
-	createControl(topRight, constraints, 2, 0);
-	createControl(midLeft,  constraints, 0, 1);
-	createControl(midMid,   constraints, 1, 1);
-	createControl(midRight, constraints, 2, 1);
-	createControl(botLeft,  constraints, 0, 2);
-	createControl(botMid,   constraints, 1, 2);
-	createControl(botRight, constraints, 2, 2);
-	createControl(quit,     constraints, 1, 3);
+	// Add the Cells and quit button to the left side of the board.
+	addComponent(topLeft,  constraints, 0, 0);
+	addComponent(topMid,   constraints, 1, 0);
+	addComponent(topRight, constraints, 2, 0);
+	addComponent(midLeft,  constraints, 0, 1);
+	addComponent(midMid,   constraints, 1, 1);
+	addComponent(midRight, constraints, 2, 1);
+	addComponent(botLeft,  constraints, 0, 2);
+	addComponent(botMid,   constraints, 1, 2);
+	addComponent(botRight, constraints, 2, 2);
+	addComponent(quit,     constraints, 1, 3);
 
 	// Add the vertical separator between the board and win stats.
-	constraints.gridx = 3;
-	constraints.gridy = 0;
-	constraints.gridheight = 5;
+	constraints.gridheight = 3;
 	constraints.fill = GridBagConstraints.VERTICAL;
-	constraints.insets = new Insets(0, 20, 0, 0);
-	JSeparator boardStatsSeparator = new JSeparator(SwingConstants.VERTICAL);
-	boardStatsSeparator.setPreferredSize(new Dimension(50, 50));
-	topPanel.add(boardStatsSeparator, constraints);
+	constraints.insets = new Insets(0, 20, 0, 20);
+	addComponent(new JSeparator(SwingConstants.VERTICAL), constraints, 3, 0);
 
+	// Add the win stats labels and text fields to the right side of the board.
 	constraints.gridheight = 1;
-	constraints.gridx = 4;
-	constraints.gridy = 0;
 	constraints.insets = new Insets(0, 0, 0, 0);
 	constraints.fill = SwingConstants.HORIZONTAL;
-	JLabel xLabel = new JLabel("X wins:");
-	topPanel.add(xLabel, constraints);
-
-	constraints.gridx = 5;
-	xCount.setEditable(false);
-	topPanel.add(xCount, constraints);
-
-	constraints.gridx = 4;
-	constraints.gridy = 1;
-	JLabel oLabel = new JLabel("O wins:");
-	topPanel.add(oLabel, constraints);
-	
-	constraints.gridx = 5;
-	oCount.setEditable(false);
-	topPanel.add(oCount, constraints);
-
-	constraints.gridx = 4;
-	constraints.gridy = 2;
-	JLabel tiesLabel = new JLabel("Ties:");
-	topPanel.add(tiesLabel, constraints);
-
-	constraints.gridx = 5;
-	tiesCount.setEditable(false);
-	topPanel.add(tiesCount, constraints);
+	addComponent(new JLabel("X wins:"), constraints, 4, 0);
+	addComponent(new JLabel("O wins:"), constraints, 4, 1);
+	addComponent(new JLabel("Ties:"), constraints, 4, 2);
+	addComponent(xCount, constraints, 5, 0);
+	addComponent(oCount, constraints, 5, 1);
+	addComponent(tiesCount, constraints, 5, 2);
     }
 
     /** Whenever we receive an event, fire off the appropriate actions. */
@@ -164,14 +147,12 @@ public class MainGUI extends JFrame implements ActionListener {
 	}
     }
 
-    /** Given a JButton button, some GridBagConstraints gbc, 
-     *  and some x/y coordinates, add button to the topPanel with gridx/y as x and y.
-     *  Also add an ActionListener to the button, so it can listen for events. */
-    public void createControl(JButton button, GridBagConstraints gbc, int x, int y) {
-	button.addActionListener(this);
+    /** Add a given JComponent component to the board's topPanel
+     *  with coordinates (x, y). */
+    private void addComponent(JComponent component, GridBagConstraints gbc, int x, int y) {
 	gbc.gridx = x;
 	gbc.gridy = y;
-	topPanel.add(button, gbc);
+	topPanel.add(component, gbc);
     }
 
     /** Check to see if player X or O has won this game. */
@@ -241,13 +222,13 @@ public class MainGUI extends JFrame implements ActionListener {
 
 	// Select a random number for the cell. If it's owned, try again.
 	// Else, buy the cell.
-	Random roll = new Random();
-	int num = roll.nextInt(9);
+	Random randomRoller = new Random();
+	int rollValue = randomRoller.nextInt(9);
 
-	if (cells[num].isOwned() == true)
+	if (cells[rollValue].isOwned() == true)
 	    AIDoTurn();
 	else
-	    cells[num].setOwner('O');
+	    cells[rollValue].setOwner('O');
     }
 
     /** If a player won the game or there is a tie, pop up
@@ -262,7 +243,6 @@ public class MainGUI extends JFrame implements ActionListener {
 		xCount.setText(Integer.toString(Integer.parseInt(xCount.getText()) + 1));
 	}
 
-	// TODO: Get rid of this duplication.
 	else if (checkForWinner() == 'T') {
 	    JOptionPane.showMessageDialog(topPanel, "Tie game! No winner.");
 	    tiesCount.setText(Integer.toString(Integer.parseInt(tiesCount.getText()) + 1));
