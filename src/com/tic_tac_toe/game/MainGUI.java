@@ -251,7 +251,7 @@ public class MainGUI extends JFrame implements ActionListener {
     private boolean ownersAreEqual(Cell a, Cell b, Cell c) {
 	if (a.getOwner() == b.getOwner() &&
 	    b.getOwner() == c.getOwner() &&
-	    a.getOwner() != 'N')
+	    a.isOwned()  == true)
 	    // TODO: change a.getOwner() != 'N' to a.isOwned()
 	    return true;
 	else
