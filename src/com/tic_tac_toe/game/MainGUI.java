@@ -47,7 +47,6 @@ public class MainGUI extends JFrame implements ActionListener {
     /** Text field that holds the number of times both players have tied. */
     private JTextField tiesCount = new JTextField("0");
 
-
     /** The top-level panel that holds all components in this object. */
     private JPanel topPanel = new JPanel(new GridBagLayout());
     
@@ -230,8 +229,9 @@ public class MainGUI extends JFrame implements ActionListener {
     }
 
     /** If a player won the game or there is a tie, pop up
-     *  the relevant dialog and increment the correct win score.
-     *  If the game is not yet ended, do nothing. */
+     *  the relevant dialog, increment the winner of the game's
+     *  score, and reset the board so a new game can take place.
+     *  If the game has not yet ended, do nothing. */
     public void doGameEndActions() {
 	if (checkForWinner() == 'O' || checkForWinner() == 'X') {
 	    JOptionPane.showMessageDialog(topPanel, "Player " + checkForWinner() + " wins!");
@@ -239,11 +239,15 @@ public class MainGUI extends JFrame implements ActionListener {
 		oCount.setText(Integer.toString(Integer.parseInt(oCount.getText()) + 1));
 	    else
 		xCount.setText(Integer.toString(Integer.parseInt(xCount.getText()) + 1));
+
+	    resetBoard();
 	}
 
 	else if (checkForWinner() == 'T') {
 	    JOptionPane.showMessageDialog(topPanel, "Tie game! No winner.");
 	    tiesCount.setText(Integer.toString(Integer.parseInt(tiesCount.getText()) + 1));
+	    
+	    resetBoard();
 	}
     }
 
@@ -253,9 +257,21 @@ public class MainGUI extends JFrame implements ActionListener {
 	if (a.getOwner() == b.getOwner() &&
 	    b.getOwner() == c.getOwner() &&
 	    a.isOwned()  == true)
-	    // TODO: change a.getOwner() != 'N' to a.isOwned()
 	    return true;
 	else
 	    return false;
+    }
+
+    /** Reset the owners of all Cells to being unowned. */
+    public void resetBoard() {
+	topLeft.setOwner('N');
+	midLeft.setOwner('N');
+	botLeft.setOwner('N');
+	topMid.setOwner('N');
+	midMid.setOwner('N');
+	botMid.setOwner('N');
+	topRight.setOwner('N');
+	midRight.setOwner('N');
+	botRight.setOwner('N');
     }
 }
