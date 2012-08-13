@@ -1,7 +1,0 @@
-* Goal: Create a simple, 3x3 tic-tac toe game.
-* Classes:
-** Cell
-*** Fields:
-**** state - X, O, or -, for marked by X or O, or not marked.
-*** Methods:
-**** changeOwner() - changes the owner to player X, O, or unowned.
