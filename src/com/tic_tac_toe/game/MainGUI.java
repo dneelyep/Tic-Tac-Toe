@@ -118,6 +118,7 @@ public class MainGUI extends JFrame implements ActionListener {
     }
 
     /** Whenever we receive an event, fire off the appropriate actions. */
+    @Override
     public void actionPerformed(ActionEvent e) {
 	JButton sourceButton = (JButton) e.getSource();
 	ImageIcon sourceIcon = (ImageIcon) sourceButton.getIcon();
@@ -131,13 +132,13 @@ public class MainGUI extends JFrame implements ActionListener {
 	    Cell cellSourceButton = (Cell) sourceButton;
 
 	    // Make sure the Cell does not already have an owner.
-	    // TODO: Don't allow the player to click an owned cell, and thus forfeit their turn.
-	    if (cellSourceButton.isOwned() == false)
+	    if (cellSourceButton.isOwned() == false) {
 		cellSourceButton.setOwner('X');
-
-	    // If nobody has won yet, have the computer do a turn.
-	    if (checkForWinner() == 'N')
-		AIDoTurn();
+	
+		// If nobody has won yet, have the computer do a turn.
+		if (checkForWinner() == 'N')
+		    AIDoTurn();
+	    }
 
 	    // And, if a player won or there's a tie, pop up the game-ending window.
 	    doGameEndActions();
