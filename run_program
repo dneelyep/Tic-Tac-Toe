@@ -1,5 +1,5 @@
 #!/bin/bash
 
-cd ~/Programming/Java/tic_tac_toe/bin
+cd bin/
 java com.tic_tac_toe.game.MainGUI
 cd - > /dev/null
